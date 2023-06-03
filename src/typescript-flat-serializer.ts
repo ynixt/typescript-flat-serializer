@@ -24,7 +24,9 @@ export const ATTR_CLASS_NAME = '__class__';
 
 function formatValue(value: any) {
     if (value != null && typeof value === 'object' && registeredTSFlatObjects.has(value.constructor.name)) {
+        const metadata = Reflection.getTSFlatObjectMetadata(value.constructor)
         value[ATTR_CLASS_NAME] = value.constructor.name;
+        return metadata.beforeStringify(value);
     }
 
     return value;
@@ -63,14 +65,18 @@ export function stringify(obj: any): string {
         );
     }
 
+    // Remove ATTR_CLASS_NAME from the original items
+    inputArray.forEach(item => {
+        delete item[ATTR_CLASS_NAME];
+    })
+
     return `[${outputArray.join(',')}]`;
 }
 
-export function parse(str: string): any {
+export function parse<T>(str: string): T {
     const array: any[] = JSON.parse(str);
-    const root = array[0];
 
-    if (typeof root !== 'object') return root;
+    if (typeof array[0] !== 'object') return array[0];
 
     // Restore the type of the object
     array.forEach((item, index) => {
@@ -78,8 +84,10 @@ export function parse(str: string): any {
             const className = item[ATTR_CLASS_NAME];
 
             if (className != null && registeredTSFlatObjects.has(className)) {
-                const obj = Object.assign(Object.create(registeredTSFlatObjects.get(className).prototype), item);
-                array[index] = obj;
+                const prototype = registeredTSFlatObjects.get(className).prototype;
+                const tempObj = Object.create(prototype);
+                const metadata = Reflection.getTSFlatObjectMetadata(tempObj.constructor);
+                array[index] = Object.assign(new tempObj.constructor(...metadata.constructorParams), item);
             }
         }
     });
@@ -96,5 +104,23 @@ export function parse(str: string): any {
         }
     });
 
-    return root;
+    array.forEach(item => {
+        // After parse
+        if (typeof item === 'object') {
+            const className = item[ATTR_CLASS_NAME];
+
+            if (className != null && registeredTSFlatObjects.has(className)) {
+                const metadata = Reflection.getTSFlatObjectMetadata(item.constructor);
+
+                if (metadata.afterParse) {
+                    metadata.afterParse(item);
+                }
+            }
+        }
+
+        // ATTR_CLASS_NAME is not needed anymore
+        delete item[ATTR_CLASS_NAME];
+    })
+
+    return array[0];
 }

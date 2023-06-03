@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { TSFlatObjectMetadata, TSFlatObjectProperties } from './typescript-flat-object';
 import { TSFlatPropertyMetadata } from './typescript-flat-property';
+import {Type} from "./helpers";
 
 export class Reflection {
   static apiMap = 'api:map:';
@@ -26,7 +27,7 @@ export class Reflection {
     return target && typeof target !== 'string' ? Reflect.getMetadata(Reflection.designParamTypes, target) : undefined;
   }
 
-  static getTSFlatObjectMetadata(type: object): TSFlatObjectMetadata | undefined {
+  static getTSFlatObjectMetadata(type: Type<any>): TSFlatObjectMetadata | undefined {
     return type ? (Reflect.getMetadata(Reflection.apiMapFlatObject, type) as TSFlatObjectMetadata) : undefined;
   }
 

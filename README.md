@@ -6,7 +6,7 @@ A typescript library to serialize/deserialize classes to/from string in a flat f
 
 ## Why
 
-When I was developing a electron app I needed a serializer that fill some requirements to use in on 
+When I was developing a electron app I needed a serializer that fill some requirements to use with
 [IPC](https://www.electronjs.org/docs/latest/tutorial/ipc):
 
 - After serialize I wanted that the object keep the methods (right prototype)
