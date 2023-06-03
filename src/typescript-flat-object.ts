@@ -5,14 +5,10 @@ export const registeredTSFlatObjects: Map<string, Type<any>> = new Map();
 
 export interface TSFlatObjectMetadata {
     constructorParams: Array<unknown>;
-    beforeStringify: (obj: any) => any
-    afterParse?: (obj: any) => void
 }
 
 export interface TSFlatObjectProperties {
     constructorParams?: Array<unknown>;
-    beforeStringify?: (obj: any) => any
-    afterParse?: (obj: any) => void
 }
 
 export const TSFlatObject = (options?: TSFlatObjectProperties): Function => {
@@ -21,8 +17,6 @@ export const TSFlatObject = (options?: TSFlatObjectProperties): Function => {
         Reflection.setFlatObject(
             {
                 constructorParams,
-                beforeStringify: options?.beforeStringify ?? ((obj) => obj),
-                afterParse: options?.afterParse,
             },
             target
         );

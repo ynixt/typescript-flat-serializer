@@ -1,5 +1,6 @@
 import {parse, stringify} from "../src/typescript-flat-serializer";
 import {TSFlatObject} from "../src/typescript-flat-object";
+import {TSFlatProperty} from "../src";
 
 class AnyClassExample {
     constructor(public str: string) {
@@ -12,24 +13,16 @@ export class AnyClassExampleWithDecorator {
     }
 }
 
-@TSFlatObject({
-    beforeStringify: (c => {
-        c.str = 'before works';
-        return c;
-    })
-})
+@TSFlatObject()
 export class BeforeStringify {
-    constructor(public str: string) {
+    constructor(@TSFlatProperty({beforeStringify: (str) => 'before works'}) public str: string) {
     }
 }
 
-@TSFlatObject({
-    afterParse: (c => {
-        c.str = 'after works';
-    })
-})
+
+@TSFlatObject()
 export class AfterParse {
-    constructor(public str: string) {
+    constructor(@TSFlatProperty({beforeStringify: (str) => 'after works'}) public str: string) {
     }
 }
 
