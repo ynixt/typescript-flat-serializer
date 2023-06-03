@@ -14,7 +14,7 @@ export class Dog extends Animal {
 }
 
 test('stringify/parse with inheritance', () => {
-    const animal = new Dog('adsdsa');
+    const animal: Animal = new Dog('adsdsa');
 
     const str = stringify(animal);
     const parsedRoot = parse(str);
