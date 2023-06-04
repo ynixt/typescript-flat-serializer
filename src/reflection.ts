@@ -1,7 +1,7 @@
 import { Type } from './helpers';
-import { TSFlatCollectionMetadata } from './typescript-flat-collection';
-import { TSFlatObjectMetadata } from './typescript-flat-object';
-import { TSFlatPropertyMetadata } from './typescript-flat-property';
+import { TSFlatCollectionMetadata } from './flat-collection';
+import { TSFlatObjectMetadata } from './flat-object';
+import { TSFlatPropertyMetadata } from './flat-property';
 import 'reflect-metadata';
 
 export class Reflection {

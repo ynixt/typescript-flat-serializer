@@ -1,5 +1,5 @@
-export { stringify, parse, StringifyOptions } from './typescript-flat-serializer';
-export { TSFlatObject, TSFlatObjectProperties } from './typescript-flat-object';
-export { TSFlatProperty, TSFlatPropertyOptions } from './typescript-flat-property';
-export { TSFlatCollection, TSFlatCollectionOptions } from './typescript-flat-collection';
+export { stringify, parse, StringifyOptions } from './flat-serializer';
+export { TSFlatObject, TSFlatObjectProperties } from './flat-object';
+export { TSFlatProperty, TSFlatPropertyOptions } from './flat-property';
+export { TSFlatCollection, TSFlatCollectionOptions } from './flat-collection';
 export { CustomWayOfCloningObjectMap, RFDCOptions } from './rfdc';

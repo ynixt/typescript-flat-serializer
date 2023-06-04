@@ -5,6 +5,7 @@
     "outDir": "./dist",
     "sourceRoot": "./src",
     "target": "esnext",
+    "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
     "experimentalDecorators": true,

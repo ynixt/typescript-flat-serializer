@@ -1,7 +1,7 @@
 import { Reflection } from './reflection';
 import { RFDCOptions, rfdc } from './rfdc';
-import { CollectionType, CollectionTypeString } from './typescript-flat-collection';
-import { registeredTSFlatObjects } from './typescript-flat-object';
+import { CollectionType, CollectionTypeString } from './flat-collection';
+import { registeredTSFlatObjects } from './flat-object';
 
 export type StringifyOptions = {
   rFDCOptions?: RFDCOptions;

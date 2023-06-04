@@ -54,7 +54,8 @@ export abstract class Animal {
     }
 }
 
-// This decorator NEEDS to be placed on every class thats have TSFlatCollection or TSFlatProperty
+// This decorator NEEDS to be placed on every class that you want to serialize. 
+// Without this decorator the behavior will be like stringify/parse from JSON.
 @TSFlatObject()
 export class Dog extends Animal {
     // This decorator will take care of serialize/deserialize our collection

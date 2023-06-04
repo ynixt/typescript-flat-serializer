@@ -1,5 +1,5 @@
-import { TSFlatObject } from '../src/typescript-flat-object';
-import { parse, stringify } from '../src/typescript-flat-serializer';
+import { TSFlatObject } from '../src/flat-object';
+import { parse, stringify } from '../src/flat-serializer';
 
 @TSFlatObject()
 export abstract class Animal {
