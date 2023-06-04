@@ -8,7 +8,7 @@ export interface TSFlatPropertyMetadata {
   afterParse?: PropertyTransformer;
 }
 
-export interface TSFlatPropertyOptions extends TSFlatPropertyMetadata {}
+export type TSFlatPropertyOptions = TSFlatPropertyMetadata;
 
 export const TSFlatProperty = (options?: TSFlatPropertyOptions): Function => {
   return (target: Type<any>, key: string) => {

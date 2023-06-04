@@ -20,17 +20,17 @@ export type RFDCOptions = {
 };
 
 export function rfdc(opts?: RFDCOptions) {
-  var refs = [];
-  var refsNew = [];
+  const refs = [];
+  const refsNew = [];
 
   return clone;
 
   function cloneArray(a, fn) {
-    var keys = Object.keys(a);
-    var a2 = new Array(keys.length);
-    for (var i = 0; i < keys.length; i++) {
-      var k = keys[i];
-      var cur = a[k];
+    const keys = Object.keys(a);
+    const a2 = new Array(keys.length);
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i];
+      const cur = a[k];
       if (typeof cur !== 'object' || cur === null) {
         a2[k] = cur;
       } else if (cur instanceof Date) {
@@ -38,7 +38,7 @@ export function rfdc(opts?: RFDCOptions) {
       } else if (ArrayBuffer.isView(cur)) {
         a2[k] = copyBuffer(cur);
       } else {
-        var index = refs.indexOf(cur);
+        const index = refs.indexOf(cur);
         if (index !== -1) {
           a2[k] = refsNew[index];
         } else {
@@ -56,12 +56,12 @@ export function rfdc(opts?: RFDCOptions) {
     if (Array.isArray(o)) return cloneArray(o, clone);
     if (o instanceof Map) return new Map(cloneArray(Array.from(o), clone));
     if (o instanceof Set) return new Set(cloneArray(Array.from(o), clone));
-    var o2 = Object.create(Object.getPrototypeOf(o));
+    const o2 = Object.create(Object.getPrototypeOf(o));
     refs.push(o);
     refsNew.push(o2);
-    for (var k in o) {
+    for (const k in o) {
       if (Object.hasOwnProperty.call(o, k) === false) continue;
-      var cur = o[k];
+      const cur = o[k];
       if (typeof cur !== 'object' || cur === null) {
         o2[k] = cur;
       } else if (opts?.customWayOfCloningObject?.has(cur.constructor)) {
@@ -75,7 +75,7 @@ export function rfdc(opts?: RFDCOptions) {
       } else if (ArrayBuffer.isView(cur)) {
         o2[k] = copyBuffer(cur);
       } else {
-        var i = refs.indexOf(cur);
+        const i = refs.indexOf(cur);
         if (i !== -1) {
           o2[k] = refsNew[i];
         } else {

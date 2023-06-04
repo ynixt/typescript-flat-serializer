@@ -1,7 +1,7 @@
-import { Reflection } from './reflection';
-import { RFDCOptions, rfdc } from './rfdc';
 import { CollectionType, CollectionTypeString } from './flat-collection';
 import { registeredTSFlatObjects } from './flat-object';
+import { Reflection } from './reflection';
+import { RFDCOptions, rfdc } from './rfdc';
 
 export type StringifyOptions = {
   rFDCOptions?: RFDCOptions;
@@ -39,13 +39,16 @@ function formatValue(value: any) {
 
 function convertCollectionToArray(value: CollectionType, currentCollectionType: CollectionTypeString) {
   switch (currentCollectionType) {
-    case 'array':
+    case 'array': {
       return value;
-    case 'set':
+    }
+    case 'set': {
       return Array.from(value.values());
-    case 'map':
+    }
+    case 'map': {
       return Array.from(value.entries());
-    case 'dictionary':
+    }
+    case 'dictionary': {
       const array = [];
       for (const key of Object.keys(value)) {
         array.push({
@@ -54,6 +57,7 @@ function convertCollectionToArray(value: CollectionType, currentCollectionType: 
         });
       }
       return array;
+    }
   }
 }
 
@@ -61,13 +65,16 @@ function convertArrayToOriginalCollectionType(value: CollectionType, currentColl
   const array = value as Array<any>;
 
   switch (currentCollectionType) {
-    case 'array':
+    case 'array': {
       return value;
-    case 'set':
+    }
+    case 'set': {
       return new Set(array);
-    case 'map':
+    }
+    case 'map': {
       return new Map(array);
-    case 'dictionary':
+    }
+    case 'dictionary': {
       const obj: any = {};
 
       array.forEach(item => {
@@ -75,6 +82,7 @@ function convertArrayToOriginalCollectionType(value: CollectionType, currentColl
       });
 
       return obj;
+    }
   }
 }
 
@@ -118,7 +126,7 @@ export function stringify(obj: any, options?: StringifyOptions): string {
 
         if (typeof value === 'object') {
           if (positionsByObj.has(value)) {
-            return getId(positionsByObj.get(value)!);
+            return getId(positionsByObj.get(value));
           }
 
           return getId(addItem(formatValue(value), inputArray, positionsByObj));
@@ -152,7 +160,7 @@ export function parse<T>(str: string): T {
   });
 
   // Restore references
-  array.forEach((item, index) => {
+  array.forEach(item => {
     if (typeof item === 'object') {
       for (const key of Object.keys(item)) {
         if (isId(item[key])) {

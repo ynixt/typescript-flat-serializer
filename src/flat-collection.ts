@@ -10,7 +10,7 @@ export interface TSFlatCollectionMetadata {
   collectionType: CollectionTypeString;
 }
 
-export interface TSFlatCollectionOptions extends TSFlatCollectionMetadata {}
+export type TSFlatCollectionOptions = TSFlatCollectionMetadata;
 
 export const TSFlatCollection = (options: TSFlatCollectionOptions): Function => {
   return (target: Type<any>, key: string) => {

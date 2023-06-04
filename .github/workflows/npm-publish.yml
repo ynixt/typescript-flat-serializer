@@ -16,12 +16,13 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm test
+      - run: npm run lint:ci
+      - run: npm run test:ci
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm build
+      - run: npm run build
 
   publish-gpr:
     needs: build

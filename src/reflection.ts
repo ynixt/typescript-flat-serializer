@@ -1,7 +1,7 @@
-import { Type } from './helpers';
 import { TSFlatCollectionMetadata } from './flat-collection';
 import { TSFlatObjectMetadata } from './flat-object';
 import { TSFlatPropertyMetadata } from './flat-property';
+import { Type } from './helpers';
 import 'reflect-metadata';
 
 export class Reflection {
