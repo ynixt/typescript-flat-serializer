@@ -259,7 +259,7 @@ This library before the serialization makes a clone of the object. By default th
 - GeneratorFunction
 - arguments
 
-To support other type, like DateTime of [Luxon](https://github.com/moment/luxon/) Object, you should do something like that:
+To support other type, like DateTime of [Luxon](https://github.com/moment/luxon/), you should do something like that:
 
 ```typescript
 const customWayOfCloningObject: CustomWayOfCloningObjectMap = new Map();
