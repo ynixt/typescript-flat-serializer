@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="14" failures="0" errors="0" time="3.967">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:28:13" time="3.233" tests="5">
-    <testcase classname=" basic stringify/parse" name=" basic stringify/parse" time="0.004">
+<testsuites name="jest tests" tests="14" failures="0" errors="0" time="4.592">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:29:25" time="3.929" tests="1">
+    <testcase classname=" stringify/parse with inheritance" name=" stringify/parse with inheritance" time="0.005">
     </testcase>
-    <testcase classname=" basic stringify/parse with circular reference" name=" basic stringify/parse with circular reference" time="0.001">
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:29:25" time="4.026" tests="5">
+    <testcase classname=" basic stringify/parse" name=" basic stringify/parse" time="0.005">
+    </testcase>
+    <testcase classname=" basic stringify/parse with circular reference" name=" basic stringify/parse with circular reference" time="0">
     </testcase>
     <testcase classname=" stringify/parse in a TSFlatObject" name=" stringify/parse in a TSFlatObject" time="0.001">
     </testcase>
@@ -12,20 +16,12 @@
     <testcase classname=" afterParse" name=" afterParse" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:28:13" time="3.284" tests="1">
-    <testcase classname=" example from readme" name=" example from readme" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:28:13" time="3.268" tests="1">
-    <testcase classname=" stringify/parse with inheritance" name=" stringify/parse with inheritance" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:28:13" time="3.378" tests="7">
-    <testcase classname=" stringify/parse with inheritance" name=" stringify/parse with inheritance" time="0.003">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:29:25" time="4.077" tests="7">
+    <testcase classname=" stringify/parse with inheritance" name=" stringify/parse with inheritance" time="0.005">
     </testcase>
     <testcase classname=" array" name=" array" time="0.001">
     </testcase>
-    <testcase classname=" set" name=" set" time="0.001">
+    <testcase classname=" set" name=" set" time="0">
     </testcase>
     <testcase classname=" map" name=" map" time="0.001">
     </testcase>
@@ -34,6 +30,10 @@
     <testcase classname=" complex map" name=" complex map" time="0.001">
     </testcase>
     <testcase classname=" custom rFDCOptions" name=" custom rFDCOptions" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-04T19:29:25" time="4.062" tests="1">
+    <testcase classname=" example from readme" name=" example from readme" time="0.006">
     </testcase>
   </testsuite>
 </testsuites>

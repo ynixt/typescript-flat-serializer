@@ -1,5 +1,12 @@
 # typescript-flat-serializer
 
+![Build status](https://github.com/ynixt/typescript-flat-serializer/workflows/Build/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/ynixt/typescript-flat-serializer/badge.svg?branch=master)](https://coveralls.io/github/ynixt/typescript-flat-serializer?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/ynixt/typescript-flat-serializer/badge.svg?targetFile=package.json)](https://snyk.io/test/github/ynixt/typescript-flat-serializer?targetFile=package.json)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/typescript-flat-serializer)
+![GitHub](https://img.shields.io/github/license/ynixt/typescript-flat-serializer)
+![npm](https://img.shields.io/npm/v/typescript-flat-serializer)
+
 A typescript library to serialize/deserialize classes to/from string in a flat format. Supports inheritance, circular reference and more
 
 # ⚠️ **This library is on pre-release** ⚠️
@@ -50,29 +57,29 @@ import {TSFlatCollection, TSFlatObject} from "typescript-flat-serializer";
 
 @TSFlatObject()
 export abstract class Animal {
-    protected constructor(public name: string) {
-    }
+  protected constructor(public name: string) {
+  }
 }
 
 // This decorator NEEDS to be placed on every class that you want to serialize. 
 // Without this decorator the behavior will be like stringify/parse from JSON.
 @TSFlatObject()
 export class Dog extends Animal {
-    // This decorator will take care of serialize/deserialize our collection
-    @TSFlatCollection({collectionType: "set"})
-    favoriteFoods: Set<Food>;
+  // This decorator will take care of serialize/deserialize our collection
+  @TSFlatCollection({collectionType: "set"})
+  favoriteFoods: Set<Food>;
 
-    constructor(name: string, public beautiful: boolean, favoriteFoods: Set<Food>) {
-        super(name);
-        this.favoriteFoods = favoriteFoods;
-    }
+  constructor(name: string, public beautiful: boolean, favoriteFoods: Set<Food>) {
+    super(name);
+    this.favoriteFoods = favoriteFoods;
+  }
 }
 
 @TSFlatObject()
 export class Food extends Animal {
-    constructor(name: string) {
-        super(name);
-    }
+  constructor(name: string) {
+    super(name);
+  }
 }
 ```
 
@@ -120,8 +127,8 @@ Used do make a Array|Set|Map|Dictionary
 ```typescript
 @TSFlatObject()
 export class Dog {
-    @TSFlatCollection({collectionType: "map"})
-    placesVisited: Map<string, boolean>
+  @TSFlatCollection({collectionType: "map"})
+  placesVisited: Map<string, boolean>
 }
 ```
 
@@ -141,13 +148,13 @@ Used modify the serialization/deserialization of a property.
 ```typescript
 @TSFlatObject()
 export class Dog {
-    @TSFlatCollection({collectionType: "map"})
-    @TSFlatProperty({
-        beforeStringify: (m) => {
-            m.set('Brazil', true);
-        }
-    })
-    placesVisited: Map<string, boolean>
+  @TSFlatCollection({collectionType: "map"})
+  @TSFlatProperty({
+    beforeStringify: (m) => {
+      m.set('Brazil', true);
+    }
+  })
+  placesVisited: Map<string, boolean>
 }
 ```
 
@@ -228,13 +235,13 @@ export interface TSFlatPropertyOptions extends TSFlatPropertyMetadata {
 
 ```typescript
 export type StringifyOptions = {
-    rFDCOptions?: RFDCOptions
+  rFDCOptions?: RFDCOptions
 }
 
 export type CustomWayOfCloningObjectMap = Map<Type<any>, (obj: any) => any>;
 
 export type RFDCOptions = {
-    customWayOfCloningObject?: CustomWayOfCloningObjectMap
+  customWayOfCloningObject?: CustomWayOfCloningObjectMap
 }
 ```
 
@@ -265,7 +272,7 @@ To support other type, like DateTime of [Luxon](https://github.com/moment/luxon/
 ```typescript
 const customWayOfCloningObject: CustomWayOfCloningObjectMap = new Map();
 const rFDCOptions: RFDCOptions = {
-    customWayOfCloningObject
+  customWayOfCloningObject
 }
 
 customWayOfCloningObject.set(DateTime, (obj) => DateTime.fromMillis(obj.millisecond));
