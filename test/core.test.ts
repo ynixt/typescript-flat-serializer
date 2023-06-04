@@ -1,6 +1,4 @@
-import {parse, stringify} from "../src/typescript-flat-serializer";
-import {TSFlatObject} from "../src/typescript-flat-object";
-import {TSFlatProperty} from "../src";
+import {TSFlatProperty, TSFlatObject, parse, stringify} from "../src";
 
 class AnyClassExample {
     constructor(public str: string) {

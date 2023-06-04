@@ -1,6 +1,11 @@
 import {Reflection} from "./reflection";
 import {registeredTSFlatObjects} from "./typescript-flat-object";
 import {CollectionType, CollectionTypeString} from "./typescript-flat-collection";
+import {rfdc, RFDCOptions} from "./rfdc";
+
+export type StringifyOptions = {
+    rFDCOptions?: RFDCOptions
+}
 
 function getId(index: number): string {
     return `#_${index}_#`;
@@ -45,7 +50,7 @@ function convertCollectionToArray(value: CollectionType, currentCollectionType: 
             for (const key of Object.keys(value)) {
                 array.push({
                     key,
-                    value
+                    value: value[key]
                 });
             }
             return array;
@@ -73,7 +78,10 @@ function convertArrayToOriginalCollectionType(value: CollectionType, currentColl
     }
 }
 
-export function stringify(obj: any): string {
+export function stringify(obj: any, options?: StringifyOptions): string {
+    const cloner = rfdc(options?.rFDCOptions);
+    obj = cloner(obj)
+
     const positionsByObj = new Map<any, number>();
     const inputArray: any[] = [];
     const outputArray: any[] = [];
@@ -121,11 +129,6 @@ export function stringify(obj: any): string {
         );
     }
 
-    // Remove ATTR_CLASS_NAME from the original items
-    inputArray.forEach(item => {
-        delete item[ATTR_CLASS_NAME];
-    })
-
     return `[${outputArray.join(',')}]`;
 }
 
@@ -160,28 +163,36 @@ export function parse<T>(str: string): T {
         }
     });
 
+    afterParse(array[0])
+
     array.forEach(item => {
-        // After parse
-        if (typeof item === 'object') {
-            if (item != null && typeof item === 'object') {
-                for (const key of Object.keys(item)) {
-                    const propertyMetadata = Reflection.getFlatPropertyMetadata(item.constructor.prototype, key);
-                    const collectionMetadata = Reflection.getFlatCollectionMetadata(item.constructor.prototype, key);
-
-                    if (propertyMetadata != null && propertyMetadata.afterParse) {
-                        item[key] = propertyMetadata.afterParse(item[key]);
-                    }
-
-                    if (collectionMetadata != null) {
-                        item[key] = convertArrayToOriginalCollectionType(item[key], collectionMetadata.collectionType);
-                    }
-                }
-            }
-        }
-
         // ATTR_CLASS_NAME is not needed anymore
         delete item[ATTR_CLASS_NAME];
     })
 
     return array[0];
+}
+
+function afterParse(obj: any, alreadyVisited: Set<any> = new Set()) {
+    for (const key of Object.keys(obj)) {
+        if (typeof obj[key] === 'object') {
+            if (alreadyVisited.has(obj)) continue;
+            alreadyVisited.add(obj[key]);
+            afterParse(obj[key], alreadyVisited);
+
+
+        }
+
+        const propertyMetadata = Reflection.getFlatPropertyMetadata(obj.constructor.prototype, key);
+        const collectionMetadata = Reflection.getFlatCollectionMetadata(obj.constructor.prototype, key);
+
+        if (propertyMetadata != null && propertyMetadata.afterParse) {
+            obj[key] = propertyMetadata.afterParse(obj[key]);
+        }
+
+
+        if (collectionMetadata != null) {
+            obj[key] = convertArrayToOriginalCollectionType(obj[key], collectionMetadata.collectionType);
+        }
+    }
 }
