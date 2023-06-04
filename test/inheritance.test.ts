@@ -13,6 +13,13 @@ export class Dog extends Animal {
     }
 }
 
+@TSFlatObject()
+export class Cat extends Animal {
+    constructor(name: string) {
+        super(name);
+    }
+}
+
 test('stringify/parse with inheritance', () => {
     const animal: Animal = new Dog('adsdsa');
 

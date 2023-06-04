@@ -15,14 +15,20 @@ export class AnyClassExampleWithDecorator {
 
 @TSFlatObject()
 export class BeforeStringify {
-    constructor(@TSFlatProperty({beforeStringify: (str) => 'before works'}) public str: string) {
+    @TSFlatProperty({beforeStringify: (str) => 'before works'}) public str: string
+
+    constructor(str: string) {
+        this.str = str;
     }
 }
 
 
 @TSFlatObject()
 export class AfterParse {
-    constructor(@TSFlatProperty({beforeStringify: (str) => 'after works'}) public str: string) {
+    @TSFlatProperty({afterParse: (str) => 'after works'}) public str: string
+
+    constructor(str: string) {
+        this.str = str;
     }
 }
 
