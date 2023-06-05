@@ -1,7 +1,7 @@
-import { CollectionType, CollectionTypeString } from './flat-collection';
-import { registeredTSFlatObjects } from './flat-object';
-import { Reflection } from './reflection';
-import { RFDCOptions, rfdc } from './rfdc';
+import {CollectionType, CollectionTypeString} from './flat-collection';
+import {registeredTSFlatObjects} from './flat-object';
+import {Reflection} from './reflection';
+import {RFDCOptions, rfdc} from './rfdc';
 
 export type StringifyOptions = {
   rFDCOptions?: RFDCOptions;
@@ -147,7 +147,7 @@ export function parse<T>(str: string): T {
 
   // Restore the type of the object
   array.forEach((item, index) => {
-    if (typeof item === 'object') {
+    if (item != null && typeof item === 'object') {
       const className = item[ATTR_CLASS_NAME];
 
       if (className != null && registeredTSFlatObjects.has(className)) {
@@ -161,7 +161,7 @@ export function parse<T>(str: string): T {
 
   // Restore references
   array.forEach(item => {
-    if (typeof item === 'object') {
+    if (item != null && typeof item === 'object') {
       for (const key of Object.keys(item)) {
         if (isId(item[key])) {
           const indexOnFlat = getIndex(item[key]);
@@ -182,8 +182,10 @@ export function parse<T>(str: string): T {
 }
 
 function afterParse(obj: any, alreadyVisited: Set<any> = new Set()) {
+  if (obj == null) return;
+
   for (const key of Object.keys(obj)) {
-    if (typeof obj[key] === 'object') {
+    if (obj[key] != null && typeof obj[key] === 'object') {
       if (alreadyVisited.has(obj)) continue;
       alreadyVisited.add(obj[key]);
       afterParse(obj[key], alreadyVisited);

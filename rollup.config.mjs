@@ -21,7 +21,9 @@ export default [
         exclude: 'node_modules',
         ignoreGlobal: true,
       }),
-      terser(),
+      terser({
+        mangle : false
+      }),
     ],
     output: [
       {
