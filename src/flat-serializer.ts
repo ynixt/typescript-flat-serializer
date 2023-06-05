@@ -174,8 +174,10 @@ export function parse<T>(str: string): T {
   afterParse(array[0]);
 
   array.forEach(item => {
-    // ATTR_CLASS_NAME is not needed anymore
-    delete item[ATTR_CLASS_NAME];
+    if (item != null) {
+      // ATTR_CLASS_NAME is not needed anymore
+      delete item[ATTR_CLASS_NAME];
+    }
   });
 
   return array[0];
