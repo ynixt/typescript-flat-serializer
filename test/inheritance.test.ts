@@ -1,14 +1,13 @@
-import {TSFlatObject} from '../src/flat-object';
-import {parse, stringify} from '../src/flat-serializer';
-import {TSFlatCollection} from "../src";
+import { TSFlatCollection } from '../src';
+import { TSFlatObject } from '../src/flat-object';
+import { parse, stringify } from '../src/flat-serializer';
 
 @TSFlatObject()
 export abstract class Animal {
-  @TSFlatCollection({collectionType: "map"})
+  @TSFlatCollection({ collectionType: 'map' })
   like: Map<string, boolean>;
 
-  constructor(public name: string) {
-  }
+  constructor(public name: string) {}
 }
 
 @TSFlatObject()
@@ -27,7 +26,7 @@ export class Cat extends Animal {
 
 @TSFlatObject()
 export class Rat extends Animal {
-  @TSFlatCollection({collectionType: "map"})
+  @TSFlatCollection({ collectionType: 'map' })
   points: Map<string, number>;
 
   constructor(name: string) {

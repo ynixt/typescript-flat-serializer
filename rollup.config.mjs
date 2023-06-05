@@ -22,7 +22,7 @@ export default [
         ignoreGlobal: true,
       }),
       terser({
-        mangle : false
+        mangle: false,
       }),
     ],
     output: [

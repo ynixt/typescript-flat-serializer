@@ -1,8 +1,8 @@
-import {CollectionType, CollectionTypeString, TSFlatCollectionMetadata} from './flat-collection';
-import {registeredTSFlatObjects} from './flat-object';
-import {Reflection} from './reflection';
-import {RFDCOptions, rfdc} from './rfdc';
-import {TSFlatPropertyMetadata} from "./flat-property";
+import { CollectionType, CollectionTypeString, TSFlatCollectionMetadata } from './flat-collection';
+import { registeredTSFlatObjects } from './flat-object';
+import { TSFlatPropertyMetadata } from './flat-property';
+import { Reflection } from './reflection';
+import { RFDCOptions, rfdc } from './rfdc';
 
 export type StringifyOptions = {
   rFDCOptions?: RFDCOptions;
@@ -100,7 +100,7 @@ function getFlatPropertyMetadata(obj: any, propertyKey: string): TSFlatPropertyM
   do {
     propertyMetadata = Reflection.getFlatPropertyMetadata(obj.constructor.prototype, propertyKey);
     obj = Object.getPrototypeOf(obj);
-  } while (propertyMetadata == null && obj.constructor.name != 'Object')
+  } while (propertyMetadata == null && obj.constructor.name != 'Object');
 
   return propertyMetadata;
 }
@@ -114,7 +114,7 @@ function getFlatCollectionMetadata(obj: any, propertyKey: string): TSFlatCollect
   do {
     collectionMetadata = Reflection.getFlatCollectionMetadata(obj.constructor.prototype, propertyKey);
     obj = Object.getPrototypeOf(obj);
-  } while (collectionMetadata == null && obj.constructor.name != 'Object')
+  } while (collectionMetadata == null && obj.constructor.name != 'Object');
 
   return collectionMetadata;
 }
