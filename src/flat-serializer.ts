@@ -135,27 +135,27 @@ export function stringify(obj: any, options?: StringifyOptions): string {
     first = true;
     outputArray.push(
       JSON.stringify(inputArray[i++], (key, value) => {
-        if (value != null && typeof value === 'object') {
-          for (const childKey of Object.keys(value)) {
-            const propertyMetadata = getFlatPropertyMetadata(value, childKey);
-            const collectionMetadata = getFlatCollectionMetadata(value, childKey);
+        if (first) {
+          if (value != null && typeof value === 'object' && !(value instanceof Array)) {
+            for (const childKey of Object.keys(value)) {
+              const propertyMetadata = getFlatPropertyMetadata(value, childKey);
+              const collectionMetadata = getFlatCollectionMetadata(value, childKey);
 
-            if (propertyMetadata != null && propertyMetadata.beforeStringify) {
-              value[childKey] = propertyMetadata.beforeStringify(value[childKey]);
-            }
+              if (propertyMetadata != null && propertyMetadata.beforeStringify) {
+                value[childKey] = propertyMetadata.beforeStringify(value[childKey]);
+              }
 
-            if (collectionMetadata != null) {
-              value[childKey] = convertCollectionToArray(value[childKey], collectionMetadata.collectionType);
+              if (collectionMetadata != null) {
+                value[childKey] = convertCollectionToArray(value[childKey], collectionMetadata.collectionType);
+              }
             }
           }
-        }
 
-        if (first) {
           first = false;
           return formatValue(value);
         }
 
-        if (obj == null) return value;
+        if (value == null) return value;
 
         if (typeof value === 'object') {
           if (positionsByObj.has(value)) {
