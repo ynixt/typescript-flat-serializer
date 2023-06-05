@@ -221,7 +221,7 @@ function afterParse(obj: any, alreadyVisited: Set<any> = new Set()) {
 
   for (const key of Object.keys(obj)) {
     if (obj[key] != null && typeof obj[key] === 'object') {
-      if (alreadyVisited.has(obj)) continue;
+      if (alreadyVisited.has(obj[key])) continue;
       alreadyVisited.add(obj[key]);
       afterParse(obj[key], alreadyVisited);
     }
