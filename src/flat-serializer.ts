@@ -1,7 +1,8 @@
-import {CollectionType, CollectionTypeString} from './flat-collection';
+import {CollectionType, CollectionTypeString, TSFlatCollectionMetadata} from './flat-collection';
 import {registeredTSFlatObjects} from './flat-object';
 import {Reflection} from './reflection';
 import {RFDCOptions, rfdc} from './rfdc';
+import {TSFlatPropertyMetadata} from "./flat-property";
 
 export type StringifyOptions = {
   rFDCOptions?: RFDCOptions;
@@ -38,6 +39,8 @@ function formatValue(value: any) {
 }
 
 function convertCollectionToArray(value: CollectionType, currentCollectionType: CollectionTypeString) {
+  if (value == null) return value;
+
   switch (currentCollectionType) {
     case 'array': {
       return value;
@@ -62,6 +65,8 @@ function convertCollectionToArray(value: CollectionType, currentCollectionType: 
 }
 
 function convertArrayToOriginalCollectionType(value: CollectionType, currentCollectionType: CollectionTypeString) {
+  if (value == null) return value;
+
   const array = value as Array<any>;
 
   switch (currentCollectionType) {
@@ -86,6 +91,34 @@ function convertArrayToOriginalCollectionType(value: CollectionType, currentColl
   }
 }
 
+/**
+ * Get the flatPropertyMetadata searching on the object and on object's parent.
+ */
+function getFlatPropertyMetadata(obj: any, propertyKey: string): TSFlatPropertyMetadata {
+  let propertyMetadata: TSFlatPropertyMetadata = null;
+
+  do {
+    propertyMetadata = Reflection.getFlatPropertyMetadata(obj.constructor.prototype, propertyKey);
+    obj = Object.getPrototypeOf(obj);
+  } while (propertyMetadata == null && obj.constructor.name != 'Object')
+
+  return propertyMetadata;
+}
+
+/**
+ * Get the flatCollectionMetadata searching on the object and on object's parent.
+ */
+function getFlatCollectionMetadata(obj: any, propertyKey: string): TSFlatCollectionMetadata {
+  let collectionMetadata: TSFlatCollectionMetadata = null;
+
+  do {
+    collectionMetadata = Reflection.getFlatCollectionMetadata(obj.constructor.prototype, propertyKey);
+    obj = Object.getPrototypeOf(obj);
+  } while (collectionMetadata == null && obj.constructor.name != 'Object')
+
+  return collectionMetadata;
+}
+
 export function stringify(obj: any, options?: StringifyOptions): string {
   const cloner = rfdc(options?.rFDCOptions);
   obj = cloner(obj);
@@ -104,8 +137,8 @@ export function stringify(obj: any, options?: StringifyOptions): string {
       JSON.stringify(inputArray[i++], (key, value) => {
         if (value != null && typeof value === 'object') {
           for (const childKey of Object.keys(value)) {
-            const propertyMetadata = Reflection.getFlatPropertyMetadata(value.constructor.prototype, childKey);
-            const collectionMetadata = Reflection.getFlatCollectionMetadata(value.constructor.prototype, childKey);
+            const propertyMetadata = getFlatPropertyMetadata(value, childKey);
+            const collectionMetadata = getFlatCollectionMetadata(value, childKey);
 
             if (propertyMetadata != null && propertyMetadata.beforeStringify) {
               value[childKey] = propertyMetadata.beforeStringify(value[childKey]);
@@ -193,8 +226,8 @@ function afterParse(obj: any, alreadyVisited: Set<any> = new Set()) {
       afterParse(obj[key], alreadyVisited);
     }
 
-    const propertyMetadata = Reflection.getFlatPropertyMetadata(obj.constructor.prototype, key);
-    const collectionMetadata = Reflection.getFlatCollectionMetadata(obj.constructor.prototype, key);
+    const propertyMetadata = getFlatPropertyMetadata(obj, key);
+    const collectionMetadata = getFlatCollectionMetadata(obj, key);
 
     if (propertyMetadata != null && propertyMetadata.afterParse) {
       obj[key] = propertyMetadata.afterParse(obj[key]);
