@@ -9,8 +9,6 @@
 
 A typescript library to serialize/deserialize classes to/from string in a flat format. Supports inheritance, circular reference and more
 
-# ⚠️ **This library is on pre-release** ⚠️
-
 ## Summary
 
 1. [Why](#why)

@@ -1,6 +1,6 @@
 {
   "name": "typescript-flat-serializer",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "A typescript library to serialize/deserialize classes to/from string in a flat format. Supports inheritance, circular reference and more",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
