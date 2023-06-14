@@ -273,7 +273,7 @@ const rFDCOptions: RFDCOptions = {
   customWayOfCloningObject
 }
 
-customWayOfCloningObject.set(DateTime, (obj) => DateTime.fromMillis(obj.millisecond));
+customWayOfCloningObject.set(DateTime, (obj) => DateTime.fromMillis(obj.toMillis()));
 
 const str = stringify(obj, {rFDCOptions});
 ```
