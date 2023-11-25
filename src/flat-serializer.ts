@@ -94,7 +94,7 @@ function convertArrayToOriginalCollectionType(value: CollectionType, currentColl
 /**
  * Get the flatPropertyMetadata searching on the object and on object's parent.
  */
-function getFlatPropertyMetadata(obj: any, propertyKey: string): TSFlatPropertyMetadata {
+export function getFlatPropertyMetadata(obj: any, propertyKey: string): TSFlatPropertyMetadata {
   let propertyMetadata: TSFlatPropertyMetadata = null;
 
   do {

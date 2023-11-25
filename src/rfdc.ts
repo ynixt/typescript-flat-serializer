@@ -4,6 +4,7 @@
     Probably on the future I'll move this file into a new repository.
  */
 import { Type } from './helpers';
+import { getFlatPropertyMetadata } from "./flat-serializer";
 
 function copyBuffer(cur) {
   if (cur instanceof Buffer) {
@@ -60,7 +61,9 @@ export function rfdc(opts?: RFDCOptions) {
     refs.push(o);
     refsNew.push(o2);
     for (const k in o) {
-      if (Object.hasOwnProperty.call(o, k) === false) continue;
+      const propertyMetadata = getFlatPropertyMetadata(o, k);
+
+      if (Object.hasOwnProperty.call(o, k) === false || propertyMetadata?.ignore === true) continue;
       const cur = o[k];
       if (typeof cur !== 'object' || cur === null) {
         o2[k] = cur;

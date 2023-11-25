@@ -4,6 +4,13 @@ class AnyClassExample {
   constructor(public str: string) {}
 }
 
+class AnyClassExampleWithIgnore {
+  @TSFlatProperty({ ignore: true })
+  public ignoredField: string;
+
+  constructor(public str: string) {}
+}
+
 @TSFlatObject()
 export class AnyClassExampleWithDecorator {
   constructor(public str: string) {}
@@ -79,4 +86,15 @@ test('afterParse', () => {
   const parsedRoot = parse<AfterParse>(str);
 
   expect(parsedRoot.str).toBe('after works');
+});
+
+test('basic stringify/parse with ignore', () => {
+  const root = new AnyClassExampleWithIgnore('adsdsa');
+  root.ignoredField = 'nnn';
+
+  const str = stringify(root);
+  const parsedRoot = parse<AnyClassExampleWithIgnore>(str);
+
+  expect(parsedRoot.str).toEqual(root.str);
+  expect(parsedRoot.ignoredField).toBeUndefined()
 });
