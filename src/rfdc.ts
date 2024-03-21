@@ -3,8 +3,8 @@
     The modifications (and probably new bugs) are thanks to this project, so enjoy :]
     Probably on the future I'll move this file into a new repository.
  */
+import { getFlatPropertyMetadata } from './flat-serializer';
 import { Type } from './helpers';
-import { getFlatPropertyMetadata } from "./flat-serializer";
 
 function copyBuffer(cur) {
   if (cur instanceof Buffer) {

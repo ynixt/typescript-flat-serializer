@@ -1,6 +1,6 @@
 {
   "name": "typescript-flat-serializer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A typescript library to serialize/deserialize classes to/from string in a flat format. Supports inheritance, circular reference and more",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,8 +30,8 @@
     "url": "https://github.com/ynixt/typescript-flat-serializer/issues"
   },
   "homepage": "https://github.com/ynixt/typescript-flat-serializer#readme",
-  "dependencies": {
-    "reflect-metadata": "^0.1.13"
+  "peerDependencies": {
+    "reflect-metadata": "> 0.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
@@ -39,7 +39,7 @@
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "@trivago/prettier-plugin-sort-imports": "4.1.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",

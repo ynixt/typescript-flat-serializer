@@ -13,13 +13,17 @@ export interface TSFlatObjectProperties {
 
 export const TSFlatObject = (options?: TSFlatObjectProperties): Function => {
   return (target: Type<any>) => {
-    const constructorParams = options?.constructorParams ?? [];
-    Reflection.setFlatObject(
-      {
-        constructorParams,
-      },
-      target,
-    );
-    registeredTSFlatObjects.set(target.name, target);
+    registerTSFlatObject(target, options);
   };
 };
+
+export function registerTSFlatObject(target: Type<any>, options?: TSFlatObjectProperties): void {
+  const constructorParams = options?.constructorParams ?? [];
+  Reflection.setFlatObject(
+    {
+      constructorParams,
+    },
+    target,
+  );
+  registeredTSFlatObjects.set(target.name, target);
+}

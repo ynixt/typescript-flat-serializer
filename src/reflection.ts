@@ -8,14 +8,14 @@ export class Reflection {
   static apiMap = 'api:map:';
   static apiMapFlatObject = `${Reflection.apiMap}TSFlatObject`;
   static apiMapFlatProperty = `${Reflection.apiMap}TSFlatProperty`;
-  static apiMapCollection = '${Reflection.apiMap}TSFlatCollection';
+  static apiMapCollection = `${Reflection.apiMap}TSFlatCollection`;
 
   private static getApiMapFlatPropertyKey(target: object, propertyKey: string): string {
-    return `${Reflection.apiMapFlatProperty}${target.constructor.name}.${propertyKey}`;
+    return `${Reflection.apiMapFlatProperty}.${target.constructor.name}.${propertyKey}`;
   }
 
   private static getApiMapFlatCollectionKey(target: object, propertyKey: string): string {
-    return `${Reflection.apiMapCollection}${target.constructor.name}.${propertyKey}`;
+    return `${Reflection.apiMapCollection}.${target.constructor.name}.${propertyKey}`;
   }
 
   static getFlatPropertyMetadata(target: Type<any>, propertyKey: string): TSFlatPropertyMetadata | undefined {

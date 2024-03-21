@@ -96,5 +96,5 @@ test('basic stringify/parse with ignore', () => {
   const parsedRoot = parse<AnyClassExampleWithIgnore>(str);
 
   expect(parsedRoot.str).toEqual(root.str);
-  expect(parsedRoot.ignoredField).toBeUndefined()
+  expect(parsedRoot.ignoredField).toBeUndefined();
 });

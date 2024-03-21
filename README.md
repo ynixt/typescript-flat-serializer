@@ -31,7 +31,14 @@ When I was developing a electron app I needed a serializer that fill some requir
 
 `npm install typescript-flat-serializer --save`
 
-You also need to set **experimentalDecorators** and **emitDecoratorMetadata** to true into the tsconfig.json file.
+## Usage
+
+### With decorators
+
+#### Preparation
+
+If you want to use our decorators you also need to set **experimentalDecorators** and **emitDecoratorMetadata**
+to true into the tsconfig.json file.
 
 For example:
 
@@ -46,12 +53,12 @@ For example:
 }
 ```
 
-## Usage
+#### Usage
 
 First let's create some models
 
 ```typescript
-import {TSFlatCollection, TSFlatObject} from "typescript-flat-serializer";
+import { TSFlatCollection, TSFlatObject } from "typescript-flat-serializer";
 
 @TSFlatObject()
 export abstract class Animal {
@@ -84,7 +91,7 @@ export class Food extends Animal {
 Now we only need to serialize/deserialize the animal.
 
 ```typescript
-import {parse, stringify} from "typescript-flat-serializer";
+import { parse, stringify } from "typescript-flat-serializer";
 
 
 const foods = new Set([new Food('all')])
@@ -99,6 +106,67 @@ const parsedAnimal = parse<Animal>(str);
 ```
 
 You can find another examples of utilisation on [tests](https://github.com/ynixt/typescript-flat-serializer/tree/master/test).
+
+### Without decorators
+
+First let's create some models
+
+```typescript
+import { registerTSFlat } from "typescript-flat-serializer";
+
+export abstract class Animal {
+  protected constructor(public name: string) {
+    registerTSFlat(
+      {
+        target: Animal,
+      }
+    );
+  }
+}
+
+export class Dog extends Animal {
+  favoriteFoods: Set<Food>;
+
+  constructor(name: string, public beautiful: boolean, favoriteFoods: Set<Food>) {
+    super(name);
+    registerTSFlat(
+      {
+        target: Dog,
+      },
+      { collectionName: 'favoriteFoods', options: {collectionType: 'set'} }
+    )
+    this.favoriteFoods = favoriteFoods;
+  }
+}
+
+export class Food extends Animal {
+  constructor(name: string) {
+    super(name);
+    registerTSFlat(
+      {
+        target: Food,
+      },
+    )
+  }
+}
+```
+
+Now we only need to serialize/deserialize the animal.
+
+```typescript
+import {parse, stringify} from "typescript-flat-serializer";
+
+
+const foods = new Set([new Food('all')])
+const animal: Animal = new Dog('Luffy', true, foods);
+
+// Let's go serialize our animal
+const str = stringify(animal)
+// value of str: [{"name":"Luffy","beautiful":true,"favoriteFoods":"#_1_#","__class__":"Dog"},["#_2_#"],{"name":"all","__class__":"Food"}]
+
+// And now we can deserialize the animal
+const parsedAnimal = parse<Animal>(str);
+```
 
 ## API
 
@@ -165,6 +233,28 @@ Description: The option to customize the serialization/deserialization of the ta
 
 ### Methods
 
+#### **registerTSFlat**
+
+Used do register an object and its items.
+
+```
+registerTSFlat<T>(objectRegistration: FlatObjectRegistration<T>, ...items: FlatItem<T>[])
+```
+
+##### **Parameters**
+
+**objectRegistration**
+
+Type: `FlatObjectRegistration<T>`  
+Optional: `false`  
+Description: Information about the class that we want to make serializable.
+
+Type: `FlatItem<T>[]`  
+Optional: `true`  
+Description: Items that this class have that we want to make serializable.
+
+---
+
 #### **stringify**
 
 Used to serialize a object.
@@ -208,6 +298,38 @@ parse<T>(str: string): T
 ### Definitions
 
 #### **Types**
+
+
+##### **FlatObjectRegistration**
+
+```typescript
+export type FlatObjectRegistration<T> = {
+  target: Type<T>,
+  options?: TSFlatObjectProperties
+}
+```
+
+##### **FlatItem\<T>**
+
+```typescript
+export type FlatItem<T> = FlatPropertyRegistration<T> | FlatCollectionRegistration<T>;
+```
+
+##### **FlatPropertyRegistration\<T>**
+
+```typescript
+export type FlatPropertyRegistration<T> = {
+  propertyName: (keyof T), options?: TSFlatPropertyOptions,
+}
+```
+
+##### **FlatCollectionRegistration\<T>**
+
+```typescript
+export type FlatCollectionRegistration<T> = {
+  collectionName: (keyof T), options: TSFlatCollectionOptions
+}
+```
 
 ##### **CollectionTypeString**
 

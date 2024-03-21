@@ -14,12 +14,16 @@ export type TSFlatCollectionOptions = TSFlatCollectionMetadata;
 
 export const TSFlatCollection = (options: TSFlatCollectionOptions): Function => {
   return (target: Type<any>, key: string) => {
-    Reflection.setFlatCollectionMetadata(
-      {
-        collectionType: options.collectionType,
-      },
-      target,
-      key,
-    );
+    registerTSFlatCollection(target, key, options);
   };
 };
+
+export function registerTSFlatCollection<T>(target: Type<T>, propertyName: keyof T, options: TSFlatCollectionOptions): void {
+  Reflection.setFlatCollectionMetadata(
+    {
+      collectionType: options.collectionType,
+    },
+    target,
+    propertyName as string,
+  );
+}
